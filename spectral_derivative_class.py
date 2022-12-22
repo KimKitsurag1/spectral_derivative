@@ -2,13 +2,17 @@ import numpy as np
 
 
 class spectral_derivative():
+    '''Класс спектральной производной'''
 
     def __init__(self, func, grid):
+        '''Класс инициализируется сеткой и функцией определённой на сетке'''
         self.func = func
         self.grid = grid
 
     @staticmethod
     def butterworth_filter(freqs, number_of_freqs, steepness):
+        '''Фильтр Баттерворта с порядком крутизны steepness, гасящий высокочастотные составляющие с частотой выше
+            number_of_freqs-ой преобразования Фурье '''
         freqs_copy = np.copy(freqs)
         freqs_copy = np.abs(freqs_copy)
         freqs_copy.sort()
@@ -16,6 +20,8 @@ class spectral_derivative():
         return freqs * butterworth_filter_multiplier
 
     def spectral_derivative_1d(self, func=None, grid=None, n=None, steepness=1):
+        '''Одномерная спектральная производная,принимает на вход количество частот и крутизну для фильтра Баттерворта, если они не указаны - фильтрация не производится'''
+
         if isinstance(func, type(None)) and isinstance(grid, type(None)):
             func = self.func
             grid = self.grid
@@ -30,6 +36,8 @@ class spectral_derivative():
         return np.real(np.fft.irfft(1j * 2 * np.pi * frequencies_filtered * func_projection_filtered))
 
     def spectral_derivative_nd(self, n=None, steepness=1):
+        '''Многомерная спектральная производная,принимает на вход количество частот и крутизну для фильтра Баттерворта, если они не указаны-фильтрация не производится'''
+
         if isinstance(n, int) or isinstance(n, type(None)):
             n = np.full(shape=len(self.grid), fill_value=n)
         all_dim_derivative = []
