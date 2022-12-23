@@ -36,7 +36,7 @@ class spectral_derivative():
         return np.real(np.fft.irfft(1j * 2 * np.pi * frequencies_filtered * func_projection_filtered))
 
     def spectral_derivative_nd(self, n=None, steepness=1):
-        '''Многомерная спектральная производная,принимает на вход количество частот и крутизну для фильтра Баттерворта, если они не указаны-фильтрация не производится'''
+        '''Многомерная спектральная производная,принимает на вход количество частот по каждой размерности и крутизну для фильтра Баттерворта, если они не указаны-фильтрация не производится'''
 
         if isinstance(n, int) or isinstance(n, type(None)):
             n = np.full(shape=len(self.grid), fill_value=n)
